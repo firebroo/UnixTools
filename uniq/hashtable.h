@@ -21,7 +21,7 @@
 #define HASH_TABLE_MAX_SIZE (1 << 27)
 
 #define hash_pos(skey) \
-    hash_table_hash_str((skey)) % HASH_TABLE_MAX_SIZE
+    hash_func((skey)) % HASH_TABLE_MAX_SIZE
 
 #define hashTable_size(hashtable) \
     ((hashtable)->hash_size)

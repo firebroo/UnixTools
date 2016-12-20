@@ -10,7 +10,38 @@ hash_table_init (HashTable *hashtable)
             HASH_TABLE_MAX_SIZE);
 }
 
+inline unsigned long hash_func(const char *arKey)
+{
+    unsigned int nKeyLength = strlen(arKey);
+	register unsigned long hash = 5381;
+
+	/* variant with the hash unrolled eight times */
+	for (; nKeyLength >= 8; nKeyLength -= 8) {
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+	}
+	switch (nKeyLength) {
+		case 7: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 6: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 5: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 4: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 3: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 2: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 1: hash = ((hash << 5) + hash) + *arKey++; break;
+		case 0: break;
+	}
+	return hash;
+}
+
+
 /* string hash function */
+/*
 unsigned int
 hash_table_hash_str (const char* skey)
 {
@@ -25,6 +56,7 @@ hash_table_hash_str (const char* skey)
     }
     return hash;
 }
+*/
 
 /*insert key-value into hash table, if key is exist, 
  *it will overwrite old value, use link list to slove 
