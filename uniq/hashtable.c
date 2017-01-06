@@ -10,7 +10,19 @@ hash_table_init (HashTable *hashtable)
             HASH_TABLE_MAX_SIZE);
 }
 
-inline unsigned long hash_func(const char *arKey)
+HashNode*
+create_new_node (const char *skey) {
+    HashNode    *pNewNode;
+
+    pNewNode = (HashNode*) malloc (sizeof (HashNode));
+    pNewNode->sKey = mallocStr (skey);
+    strcpy (pNewNode->sKey, skey);
+    return pNewNode;
+}
+
+
+inline unsigned long 
+hash_func (const char *arKey)
 {
     unsigned int nKeyLength = strlen(arKey);
 	register unsigned long hash = 5381;
@@ -72,10 +84,6 @@ hash_table_insert_str (HashTable *hashtable, const char* skey)
     pos = hash_pos (skey);
     pHead = (hashtable->hashnode)[pos];
 
-    pNewNode = (HashNode*) malloc (sizeof (HashNode));
-    pNewNode->sKey = mallocStr (skey);
-    strcpy (pNewNode->sKey, skey);
-
     if (pHead) {
         while (pHead) {
             if (strcmp (pHead->sKey, skey) == 0) {  
@@ -84,10 +92,11 @@ hash_table_insert_str (HashTable *hashtable, const char* skey)
             pLast = pHead;
             pHead = pHead->pNext;
         }
+        pNewNode = create_new_node(skey);
         pLast->pNext = pNewNode;
     } else {
+        pNewNode = create_new_node(skey);
         (hashtable->hashnode)[pos] = pNewNode;
-        hashtable->hash_size++;
     }
     return true;
 }
