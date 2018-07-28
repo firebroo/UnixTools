@@ -37,8 +37,8 @@
 
 typedef struct hashnode HashNode;
 struct hashnode {
-    char      *sKey;
     HashNode  *pNext;
+    char      sKey[1];
 };
 
 typedef struct hashtable {

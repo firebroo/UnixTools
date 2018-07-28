@@ -14,8 +14,7 @@ HashNode*
 create_new_node (const char *skey) {
     HashNode    *pNewNode;
 
-    pNewNode = (HashNode*) malloc (sizeof (HashNode));
-    pNewNode->sKey = mallocStr (skey);
+    pNewNode = (HashNode*) malloc (sizeof (HashNode) + strlen(skey)) ;
     strcpy (pNewNode->sKey, skey);
     return pNewNode;
 }
