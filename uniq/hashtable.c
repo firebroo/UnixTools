@@ -85,13 +85,12 @@ hash_table_insert_str (HashTable *hashtable, const char* skey)
     pHead = (hashtable->hashnode)[pos];
 
     if (pHead) {
-        while (pHead) {
+        do {
             if (strcmp (pHead->sKey, skey) == 0) {  
                 return false; 
             }
             pLast = pHead;
-            pHead = pHead->pNext;
-        }
+        } while (pHead = pHead->pNext);
         pNewNode = create_new_node(skey);
         pLast->pNext = pNewNode;
     } else {

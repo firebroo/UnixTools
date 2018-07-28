@@ -1,6 +1,6 @@
 #include "hashtable.h"
 
-#define BUFFSIZE 4096
+#define BUFFSIZE 409600
 
 int
 main (void)
@@ -12,7 +12,7 @@ main (void)
 
     while (fgets(buf, BUFFSIZE, stdin)) { 
         bool ret = hash_table_insert_str(hashtable, buf);
-        if(ret) {
+        if (ret) {
             printf("%s", buf);
         }
     }

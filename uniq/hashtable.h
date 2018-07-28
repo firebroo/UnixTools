@@ -18,7 +18,7 @@
 #   define true           (!(false))
 #endif
 
-#define HASH_TABLE_MAX_SIZE (1 << 27)
+#define HASH_TABLE_MAX_SIZE (1 << 23)
 
 #define hash_pos(skey) \
     hash_func((skey)) % HASH_TABLE_MAX_SIZE
