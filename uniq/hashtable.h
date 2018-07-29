@@ -18,10 +18,8 @@
 #   define true           (!(false))
 #endif
 
-#define HASH_TABLE_MAX_SIZE (1 << 27)
+#define HASH_TABLE_MAX_SIZE (1 << 26)
 
-#define hash_pos(skey) \
-    hash_func((skey)) % HASH_TABLE_MAX_SIZE
 
 #define hashTable_size(hashtable) \
     ((hashtable)->hash_size)
@@ -37,12 +35,12 @@
 
 typedef struct hashnode HashNode;
 struct hashnode {
+    char      *sKey;
     HashNode  *pNext;
-    char      sKey[1];
-} __attribute__((packed));
+};
 
 typedef struct hashtable {
-    HashNode **hashnode;
+    HashNode  *hashnode;
     size_t     hash_table_max_size;
     size_t     hash_size;
 } HashTable;
