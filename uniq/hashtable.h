@@ -18,7 +18,7 @@
 #   define true           (!(false))
 #endif
 
-#define HASH_TABLE_MAX_SIZE (1 << 23)
+#define HASH_TABLE_MAX_SIZE (1 << 27)
 
 #define hash_pos(skey) \
     hash_func((skey)) % HASH_TABLE_MAX_SIZE
@@ -39,7 +39,7 @@ typedef struct hashnode HashNode;
 struct hashnode {
     HashNode  *pNext;
     char      sKey[1];
-};
+}__attribute((packed));
 
 typedef struct hashtable {
     HashNode **hashnode;
