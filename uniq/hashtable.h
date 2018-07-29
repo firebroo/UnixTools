@@ -39,7 +39,7 @@ typedef struct hashnode HashNode;
 struct hashnode {
     HashNode  *pNext;
     char      sKey[1];
-}__attribute((packed));
+} __attribute__((packed));
 
 typedef struct hashtable {
     HashNode **hashnode;
