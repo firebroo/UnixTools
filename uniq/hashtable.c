@@ -82,7 +82,7 @@ hash_table_insert_str (HashTable *hashtable, const char* skey)
     HashNode       *pLast;
     HashNode       *pNewNode;
 
-    pos = hash_func((skey)) % HASH_TABLE_MAX_SIZE;
+    pos = hash_pos(skey);
     pHead = hashtable->hashnode + pos;
 
     if (pHead->sKey) {
