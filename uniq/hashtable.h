@@ -20,15 +20,11 @@
 
 #define HASH_TABLE_MAX_SIZE (1 << 27)
 
-#define hash_pos(skey) \
-    hash_func((skey)) % HASH_TABLE_MAX_SIZE
-
 #define hashTable_size(hashtable) \
     ((hashtable)->hash_size)
 
 #define hashTable_max_size(hashtable) \
     (hashtable)->hash_table_max_size
-
 
 #define mallocStr(str) \
     (char*) calloc (sizeof(char), strlen (str) + 1)
@@ -37,12 +33,13 @@
 
 typedef struct hashnode HashNode;
 struct hashnode {
-    HashNode  *pNext;
-    char      sKey[1];
-} __attribute__((packed));
+    char      *sKey;
+    int        next;
+};
 
 typedef struct hashtable {
-    HashNode **hashnode;
+    HashNode  *node;
+    HashNode  *lastfree;
     size_t     hash_table_max_size;
     size_t     hash_size;
 } HashTable;
