@@ -6,42 +6,16 @@
 #include <string.h>
 #include <stdbool.h>
 
-#ifndef bool
-#   define bool           unsigned char
-#endif
+#define HASH_TABLE_MAX_SIZE (1 << 28)
 
-#ifndef false
-#   define false          (0)
-#endif
-
-#ifndef true
-#   define true           (!(false))
-#endif
-
-#define HASH_TABLE_MAX_SIZE (1 << 27)
-
-#define hashTable_size(hashtable) \
-    ((hashtable)->hash_size)
-
-#define hashTable_max_size(hashtable) \
-    (hashtable)->hash_table_max_size
-
-#define mallocStr(str) \
-    (char*) calloc (sizeof(char), strlen (str) + 1)
-
-
-
-typedef struct hashnode HashNode;
-struct hashnode {
-    char      *sKey;
-    int        next;
-};
+typedef struct hashnode {
+    unsigned long  hash; 
+    int            next; 
+} HashNode;
 
 typedef struct hashtable {
     HashNode  *node;
     HashNode  *lastfree;
-    size_t     hash_table_max_size;
-    size_t     hash_size;
 } HashTable;
 
 void hash_table_init (HashTable *hashtable);
@@ -51,6 +25,5 @@ unsigned int hash_table_hash_str (const char* skey);
 bool hash_table_insert_str (HashTable *hashtable, 
         const char* skey);
 
-void hash_table_release (HashTable *hashtable);
 
 #endif /* !HASHTABLE_H */

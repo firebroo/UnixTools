@@ -4,13 +4,10 @@
 void
 hash_table_init (HashTable *hashtable)
 {
-    hashtable->hash_table_max_size = HASH_TABLE_MAX_SIZE;
-    hashtable->hash_size = 0;
     hashtable->node = (HashNode *)calloc (sizeof(HashNode), \
             HASH_TABLE_MAX_SIZE);
     hashtable->lastfree = hashtable->node;
 }
-
 
 unsigned long 
 hash_func (const char *arKey)
@@ -57,29 +54,26 @@ hash_table_insert_str (HashTable *hashtable, const char* skey)
     pHead = hashtable->node + pos;
     lastfree = hashtable->lastfree;
 
-    if (pHead->sKey) {
-        if(hashv == hash_func(pHead->sKey)) {
+    if (pHead->hash) {
+        if (pHead->hash == hashv) {
             do {
-                if (strcmp (pHead->sKey, skey) == 0) {  
+                if (pHead->hash == hashv) {  
                     return false; 
                 }
                 pLast = pHead;
                 pHead = hashtable->node + pHead->next;
             } while (pHead->next);
-            lastfree->sKey = mallocStr(skey);
-            strcpy (lastfree->sKey, skey);
-            pLast->next = (lastfree-hashtable->node)/sizeof(HashNode);
+            lastfree->hash = pHead->hash;
+            pLast->next = (lastfree-(hashtable->node))/sizeof(HashNode);
         } else {
-            lastfree->sKey = pHead->sKey;
-            pHead->sKey = mallocStr(skey);
-            strcpy (pHead->sKey, skey);
+            lastfree->hash = pHead->hash;
+            pHead->hash = hashv;
         }
     } else {
-        pHead->sKey = mallocStr(skey);
-        strcpy (pHead->sKey, skey);
+        pHead->hash = hashv;
     }
 
-    while((lastfree)->sKey == NULL) {
+    while (lastfree->hash == 0L) { 
         lastfree++;
     }
     hashtable->lastfree = lastfree;
