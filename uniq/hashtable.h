@@ -11,7 +11,7 @@
 typedef struct hashnode {
     unsigned long  hash; 
     int            next; 
-} HashNode;
+} __attribute__((packed)) HashNode;
 
 typedef struct hashtable {
     HashNode  *node;
